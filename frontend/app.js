@@ -448,6 +448,25 @@ async function fetchHealth() {
   } catch { /* server not up yet */ }
 }
 
+// ── Mobile sidebar toggle ─────────────────────────────────────────────────────
+
+const sidebar        = document.querySelector('.sidebar');
+const sidebarOverlay = $('sidebarOverlay');
+const menuBtn        = $('menuBtn');
+
+function openSidebar()  { sidebar.classList.add('open');    sidebarOverlay.classList.add('active'); }
+function closeSidebar() { sidebar.classList.remove('open'); sidebarOverlay.classList.remove('active'); }
+
+menuBtn.addEventListener('click', () =>
+  sidebar.classList.contains('open') ? closeSidebar() : openSidebar()
+);
+sidebarOverlay.addEventListener('click', closeSidebar);
+
+// Close sidebar after upload on mobile
+document.getElementById('fileInput').addEventListener('change', () => {
+  if (window.innerWidth <= 768) closeSidebar();
+});
+
 // ── Init ──────────────────────────────────────────────────────────────────────
 
 setupUpload();
