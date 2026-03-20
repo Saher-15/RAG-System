@@ -27,7 +27,7 @@ class Settings(BaseSettings):
     # Retrieval
     top_k: int = 5
     # Filter out chunks with cosine distance above this threshold (0=identical, 1=unrelated)
-    relevance_threshold: float = 0.75
+    relevance_threshold: float = 0.95
 
     # Conversation history — cap to last N turns to avoid token overflow
     max_history_turns: int = 10
