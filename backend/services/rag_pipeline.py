@@ -144,10 +144,9 @@ async def stream_rag_response(
     try:
         with _client.messages.stream(
             model=settings.claude_model,
-            max_tokens=16000,
+            max_tokens=4096,
             system=_SYSTEM_PROMPT,
             messages=messages,
-            thinking={"type": "enabled", "budget_tokens": 10000},
         ) as stream:
             for event in stream:
                 if event.type == "content_block_delta":
