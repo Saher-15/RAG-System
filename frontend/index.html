@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mini RAG System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+
+    <!-- ── Sidebar ──────────────────────────────────────────────────────────── -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h1>🔍 Mini RAG</h1>
+        <p class="tagline">Retrieval-Augmented Generation</p>
+      </div>
+
+      <!-- Upload zone -->
+      <div class="upload-zone" id="uploadZone">
+        <input type="file" id="fileInput" accept=".txt,.md,.pdf" multiple />
+        <div class="upload-icon">📄</div>
+        <strong>Click or drag files here</strong>
+        <p>.txt · .md · .pdf · up to 20 MB</p>
+      </div>
+
+      <!-- Upload progress -->
+      <div class="upload-progress" id="uploadProgress">
+        <div class="bar-track"><div class="bar-fill" id="progressBar"></div></div>
+        <p class="status" id="progressStatus">Uploading…</p>
+      </div>
+
+      <!-- Document list -->
+      <p class="doc-list-label">Knowledge Base</p>
+      <div class="doc-list" id="docList">
+        <p class="doc-empty" id="docEmpty">No documents yet.<br/>Upload files to get started.</p>
+      </div>
+    </aside>
+
+    <!-- ── Chat area ─────────────────────────────────────────────────────────── -->
+    <main class="chat-area">
+      <header class="chat-header">
+        <h2>Chat with your documents</h2>
+        <span class="model-badge" id="modelBadge">claude-opus-4-6</span>
+      </header>
+
+      <div class="messages" id="messages">
+        <!-- Welcome state -->
+        <div class="welcome" id="welcome">
+          <div class="welcome-icon">🧠</div>
+          <h3>Ask anything about your documents</h3>
+          <p>Upload files to the left, then ask questions and get grounded answers with cited sources.</p>
+          <div class="steps">
+            <div class="step"><div class="step-num">1</div><p>Upload <strong>.txt, .md or .pdf</strong> files via the sidebar.</p></div>
+            <div class="step"><div class="step-num">2</div><p>Type your question below.</p></div>
+            <div class="step"><div class="step-num">3</div><p>Get a streamed answer with source citations.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Input bar -->
+      <div class="input-bar">
+        <div class="input-wrap">
+          <textarea
+            id="questionInput"
+            placeholder="Ask a question about your documents…"
+            rows="1"
+          ></textarea>
+          <button class="send-btn" id="sendBtn" title="Send (Enter)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+          </button>
+        </div>
+        <p class="input-hint">Enter to send · Shift+Enter for new line</p>
+      </div>
+    </main>
+  </div>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
