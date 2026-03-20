@@ -34,12 +34,20 @@ FRONTEND_DIR = pathlib.Path(__file__).parent.parent / "frontend"
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Initialise shared resources on startup; clean up on shutdown."""
+    import asyncio
+    import threading
+
     logger.info("Starting Mini RAG System…")
+    app.state.vector_store = None
 
-    from services.vector_store import VectorStore
+    def _init_vs():
+        from services.vector_store import VectorStore
+        vs = VectorStore()
+        app.state.vector_store = vs
+        logger.info("Vector store initialised.")
 
-    app.state.vector_store = VectorStore()
-    logger.info("Vector store initialised.")
+    thread = threading.Thread(target=_init_vs, daemon=True)
+    thread.start()
 
     yield
 
@@ -84,10 +92,10 @@ app.include_router(chat.router, prefix="/api/chat", tags=["Chat"])
 def health_check(request: Request):
     vs = request.app.state.vector_store
     return {
-        "status": "ok",
+        "status": "ok" if vs else "loading",
         "model": settings.claude_model,
         "embedding_model": settings.embedding_model,
-        "chunks_stored": vs.count(),
+        "chunks_stored": vs.count() if vs else 0,
     }
 
 
