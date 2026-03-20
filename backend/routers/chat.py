@@ -20,7 +20,10 @@ router = APIRouter()
 
 
 def _vector_store(request: Request):
-    return request.app.state.vector_store
+    vs = request.app.state.vector_store
+    if vs is None:
+        raise HTTPException(status_code=503, detail="Vector store is still loading, please retry in a moment.")
+    return vs
 
 
 # ── Streaming endpoint (primary) ───────────────────────────────────────────────
