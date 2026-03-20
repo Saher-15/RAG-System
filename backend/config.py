@@ -13,8 +13,8 @@ class Settings(BaseSettings):
     anthropic_api_key: str
     claude_model: str = "claude-opus-4-6"
 
-    # Embeddings (via ChromaDB's built-in SentenceTransformer)
-    embedding_model: str = "all-MiniLM-L6-v2"
+    # Embeddings (via ChromaDB's built-in ONNX embedding function)
+    embedding_model: str = "all-MiniLM-L6-v2"  # used in health check display only
 
     # Vector Store
     chroma_persist_dir: str = "./data/chroma"

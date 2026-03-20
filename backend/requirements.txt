@@ -10,7 +10,6 @@ anthropic>=0.86.0
 
 # Vector store + embeddings
 chromadb==0.5.23
-sentence-transformers==3.3.1
 
 # PDF support
 pypdf==5.1.0
