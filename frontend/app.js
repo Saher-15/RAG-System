@@ -50,9 +50,13 @@ function showToast(msg, type = 'info') {
 
 // ── Document list ──────────────────────────────────────────────────────────────
 
-async function loadDocuments() {
+async function loadDocuments(retries = 5) {
   try {
     const res = await fetch(`${API}/api/documents`);
+    if (res.status === 503 && retries > 0) {
+      setTimeout(() => loadDocuments(retries - 1), 3000);
+      return;
+    }
     if (!res.ok) throw new Error(await res.text());
     const data = await res.json();
     state.documents = data.documents;
@@ -138,6 +142,9 @@ async function handleFiles(files) {
         body: form,
       });
 
+      if (res.status === 503) {
+        throw new Error('Server is still loading, please wait a moment and try again.');
+      }
       if (!res.ok) {
         const err = await res.json().catch(() => ({ detail: res.statusText }));
         throw new Error(err.detail || res.statusText);
